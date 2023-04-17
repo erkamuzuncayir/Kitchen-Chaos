@@ -20,7 +20,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private bool _isWalking;
     private Vector3 _lastInteractDir;
-    private BaseCounter _baseCounter;
+    private BaseCounter _selectedCounter;
     private KitchenObject _kitchenObject;
     
     private void Awake()
@@ -34,13 +34,20 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private void Start()
     {
         gameInput.OnInteractAction += GameInput_OnInteractAction;
+        gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
+    }
+
+    private void GameInput_OnInteractAlternateAction(object sender, EventArgs e)
+    {
+        if(_selectedCounter != null)
+            _selectedCounter.InteractAlternate(this);
     }
 
     private void GameInput_OnInteractAction(object sender, System.EventArgs e)
     {
-        if (_baseCounter != null)
+        if (_selectedCounter != null)
         {
-            _baseCounter.Interact(this);
+            _selectedCounter.Interact(this);
         }
     }
 
@@ -71,7 +78,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             if (raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
             {
                 // Has BaseCounter
-                if (baseCounter != _baseCounter)
+                if (baseCounter != _selectedCounter)
                 {
                     SetSelectedCounter(baseCounter);
                 }
@@ -153,11 +160,11 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void SetSelectedCounter(BaseCounter selectedCounter)
     {
-        _baseCounter = selectedCounter;
+        _selectedCounter = selectedCounter;
         
         OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs
         {
-            SelectedCounter =  _baseCounter
+            SelectedCounter =  _selectedCounter
         });
     }
 
