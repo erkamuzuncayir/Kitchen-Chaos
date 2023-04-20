@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7677931c8560b7981b59831e752994, type: 3}
+  m_Name: Salad
+  m_EditorClassIdentifier: 
+  KitchenObjectSOList:
+  - {fileID: 11400000, guid: f48ba2c7e79b113c98ba9f9b7fabd8ba, type: 2}
+  - {fileID: 11400000, guid: f4c2cd352a434ddecb805f806ea02afd, type: 2}
+  recipeName: Salad
