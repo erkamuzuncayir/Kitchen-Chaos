@@ -6,7 +6,12 @@ using Random = UnityEngine.Random;
 
 public class DeliveryManager : MonoBehaviour
 {
+    public event EventHandler OnRecipeSpawned;
+    public event EventHandler OnRecipeCompleted;
+    public static DeliveryManager Instance { get; private set; }
+    
     [SerializeField] private RecipeListSO recipeListSO;
+    
     private List<RecipeSO> _waitingRecipeSOList;
     private float _spawnRecipeTimer;
     private float _spawnRecipeTimerMax = 4f;
@@ -14,6 +19,8 @@ public class DeliveryManager : MonoBehaviour
     
     private void Awake()
     {
+        Instance = this;
+        
         _waitingRecipeSOList = new List<RecipeSO>();
     }
 
@@ -27,8 +34,10 @@ public class DeliveryManager : MonoBehaviour
             if (_waitingRecipeSOList.Count < _waitingRecipesMax)
             {
                 RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[Random.Range(0, recipeListSO.recipeSOList.Count)];
-                Debug.Log(waitingRecipeSO.recipeName);
+
                 _waitingRecipeSOList.Add(waitingRecipeSO);
+                
+                OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
             }
         }
     }
@@ -42,6 +51,7 @@ public class DeliveryManager : MonoBehaviour
             if (waitingRecipeSO.KitchenObjectSOList.Count == plateKitchenObject.GetKitchenObjectSOList().Count)
             {
                 // Has the number of ingredients
+                bool plateContentsMatchesRecipe = true;
                 foreach (KitchenObjectSO recipeKitchenObjectSO in waitingRecipeSO.KitchenObjectSOList)
                 {
                     // Cycling through all ingredients in the Recipe
@@ -56,9 +66,33 @@ public class DeliveryManager : MonoBehaviour
                             break;
                         }
                     }
+                    if (!ingredientFound)
+                    {
+                        // This Recipe ingredient was not found on the Plate
+                        plateContentsMatchesRecipe = false;
+                    }
+                }
 
+                if (plateContentsMatchesRecipe)
+                {
+                    // Player delivered the correct recipe!
+                    Debug.Log("Player delivered the correct recipe!");
+                    _waitingRecipeSOList.RemoveAt(i);
+                    
+                    OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+                    return;
                 }
             }
         }
+        /*
+         * No matches found!
+         * Player did not deliver a correct recipe
+         */
+        Debug.Log("Player did not deliver a correct recipe!");
+    }
+
+    public List<RecipeSO> GetWaitingRecipeSOList()
+    {
+        return _waitingRecipeSOList;
     }
 }
