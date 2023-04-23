@@ -73,7 +73,6 @@ public class KitchenGameManager : MonoBehaviour
                 }
                 break;
         }
-        Debug.Log(_state);
     }
 
     public bool IsGamePlaying()
