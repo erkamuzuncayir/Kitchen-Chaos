@@ -7,4 +7,4 @@ The use of **Singleton**, the use of very simple and expensive methods such as *
 
 In order not to disturb the integrity of the training, I have passed them into my own code as well as without changing them. But these are things that should never be ignored. I try to pay attention to these in the projects I develop myself. You can check my other repositories for reference.
 
-You can reach tutorial with this link: [Kitchen Chaos](www.youtube.com/watch?v=AmGSEH7QcDg)
+You can reach tutorial with this link: [Kitchen Chaos](https://www.youtube.com/watch?v=AmGSEH7QcDg)
