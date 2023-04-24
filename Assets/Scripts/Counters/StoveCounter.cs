@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class StoveCounter : BaseCounter, IHasProgress
@@ -219,4 +215,8 @@ public class StoveCounter : BaseCounter, IHasProgress
         return null;
     }
 
+    public bool IsFried()
+    {
+        return _state == State.Fried;
+    }
 }
